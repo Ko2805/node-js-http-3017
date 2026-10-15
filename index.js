@@ -1,8 +1,15 @@
 'use strict';
 const http = require('node:http');
 const pug = require('pug');
+const auth = require('http-auth');
+const basic = auth.basic(
+  { realm: 'Enquetes Area.' },
+  (username, password, callback) => {
+    callback(username === 'guest' && password === 'xaXZJQmE');
+  }
+);
 const server = http
-  .createServer((req, res) => {
+  .createServer(basic.check((req, res) => {
     console.info(`Requested by ${req.socket.remoteAddress}`);
     res.writeHead(200, {
       'Content-Type': 'text/html; charset=utf-8'
@@ -20,7 +27,7 @@ const server = http
             '<h1>アンケート一覧</h1><ul>' +
             '<li><a href="/enquetes/yaki-tofu">焼き肉・湯豆腐</a></li>' +
             '<li><a href="/enquetes/rice-bread">ごはん・パン</a></li>' +
-            '<li><a href="/enquetes/sushi-pizza">寿司・ピザ</a></li>' +
+            '<li><a href="/enquetes/take-kino">たけのこの里・きのこの山</a></li>' +
             '</ul></body></html>');
         } else if (req.url === '/enquetes/yaki-tofu') {
           res.write(
@@ -38,11 +45,11 @@ const server = http
               secondItem: 'パン'
             })
           );
-        } else if (req.url === '/enquetes/sushi-pizza') {
+        } else if (req.url === '/enquetes/take-kino') {
           res.write(pug.renderFile('./form.pug', {
             path: req.url,
-            firstItem: '寿司',
-            secondItem: 'ピザ'
+            firstItem: 'たけのこの里',
+            secondItem: 'きのこの山'
           }));
         }
         res.end();
@@ -64,7 +71,7 @@ const server = http
       default:
         break;
     }
-  })
+  }))
   .on('error', e => {
     console.error('Server Error', e);
   })
