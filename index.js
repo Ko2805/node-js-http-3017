@@ -36,7 +36,7 @@ const server = http
             '<h1>アンケート一覧</h1><ul>' +
             '<li><a href="/enquetes/yaki-tofu">焼き肉・湯豆腐</a></li>' +
             '<li><a href="/enquetes/rice-bread">ごはん・パン</a></li>' +
-            '<li><a href="/enquetes/take-kino">たけのこの里・きのこの山</a></li>' +
+            '<li><a href="/enquetes/sushi-pizza">寿司・ピザ</a></li>' +
             '</ul></body></html>');
         } else if (req.url === '/enquetes/yaki-tofu') {
           res.write(
@@ -54,12 +54,12 @@ const server = http
               secondItem: 'パン'
             })
           );
-        } else if (req.url === '/enquetes/take-kino') {
+        } else if (req.url === '/enquetes/sushi-pizza') {
           res.write(
             pug.renderFile('./form.pug', {
               path: req.url,
-              firstItem: 'たけのこの里',
-              secondItem: 'きのこの山'
+              firstItem: '寿司',
+              secondItem: 'ピザ'
             })
           );
         }
