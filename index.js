@@ -19,7 +19,7 @@ const server = http
       res.end('ログアウトしました');
       return;
     }
-  
+
     res.writeHead(200, {
       'Content-Type': 'text/html; charset=utf-8'
     });
@@ -55,11 +55,13 @@ const server = http
             })
           );
         } else if (req.url === '/enquetes/take-kino') {
-          res.write(pug.renderFile('./form.pug', {
-            path: req.url,
-            firstItem: 'たけのこの里',
-            secondItem: 'きのこの山'
-          }));
+          res.write(
+            pug.renderFile('./form.pug', {
+              path: req.url,
+              firstItem: 'たけのこの里',
+              secondItem: 'きのこの山'
+            })
+          );
         }
         res.end();
         break;
@@ -73,7 +75,9 @@ const server = http
             const answer = new URLSearchParams(rawData);
             const body = `${answer.get('name')}さんは${answer.get('favorite')}に投票しました`;
             console.info(body);
-            res.write(`<!DOCTYPE html><html lang="ja"><body><h1>${body}</h1></body></html>`);
+            res.write(
+              `<!DOCTYPE html><html lang="ja"><body><h1>${body}</h1></body></html>`
+            );
             res.end();
           });
         break;
